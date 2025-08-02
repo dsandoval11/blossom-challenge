@@ -1,5 +1,7 @@
 import HeartIcon from '../../../assets/heart.svg?react';
 import HeartEmptyIcon from '../../../assets/heart-empty.svg?react';
+import { useNavigate, useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 
 interface CharacterListItemProps {
   id: string;
@@ -16,14 +18,22 @@ export default function CharacterListItem({
   name,
   species,
   image,
-  selected,
   favorite = false,
   onFavoriteToggle,
 }: CharacterListItemProps) {
+  const navigate = useNavigate();
+  const { id: paramId } = useParams<{ id: string }>();
+  const [selected, setSelected] = useState<boolean>(paramId === id);
+
+  useEffect(() => {
+    setSelected(paramId === id);
+  }, [paramId]);
+
   return (
     <li
-      className={`flex h-18.5 w-full gap-4 rounded-lg p-[16px_20px]
-      hover:bg-gray-100 ${selected ? 'bg-purple-100' : ''}`}
+      className={`flex h-18.5 w-full cursor-pointer gap-4 rounded-lg p-[16px_20px]
+       ${selected ? 'bg-purple-100' : 'hover:bg-gray-100'}`}
+      onClick={() => navigate(`character/${id}`)}
     >
       <img
         className="h-8 w-8 self-center rounded-full"
