@@ -1,9 +1,9 @@
-import { reactRouter } from '@react-router/dev/vite';
+import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import svgr from "vite-plugin-svgr";
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), svgr()]
+  plugins: [tailwindcss(), react(), tsconfigPaths(), svgr()],
 });

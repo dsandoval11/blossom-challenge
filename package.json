@@ -2,33 +2,29 @@
   "name": "blossom-challenge",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc",
-    "lint": "eslint 'app/**/*.{ts,tsx,js,jsx}'",
-    "lint:fix": "eslint 'app/**/*.{ts,tsx,js,jsx}' --fix"
-  },
   "engines": {
     "node": ">=20.0.0"
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint 'app/**/*.{ts,tsx,js,jsx}'",
+    "lint:fix": "eslint 'app/**/*.{ts,tsx,js,jsx}' --fix"
+  },
   "dependencies": {
-    "@react-router/node": "^7.7.1",
-    "@react-router/serve": "^7.7.1",
-    "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.7.1"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.7.1",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
