@@ -7,14 +7,14 @@ import {
 } from '../types/FilterType';
 import BackArrowIcon from '../../../assets/back-arrow.svg?react';
 
-type FilterPanelProps = {
+interface FilterPanelProps {
   visible?: boolean;
   onClose?: () => void;
   onFilterChange?: (
     characterFilter: CharacterFilter,
     specieFilter: SpecieFilter,
   ) => void;
-};
+}
 
 export default function FilterPanel({
   visible = false,

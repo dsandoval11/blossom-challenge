@@ -1,19 +1,21 @@
 import HeartIcon from '../../../assets/heart.svg?react';
 import HeartEmptyIcon from '../../../assets/heart-empty.svg?react';
 
-type CharacterListItemProps = {
-  id: number;
+interface CharacterListItemProps {
+  id: string;
   name: string;
   species: string;
+  image: string;
   selected?: boolean;
   favorite?: boolean;
-  onFavoriteToggle?: (id: number) => void;
-};
+  onFavoriteToggle?: (id: string) => void;
+}
 
 export default function CharacterListItem({
   id,
   name,
   species,
+  image,
   selected,
   favorite = false,
   onFavoriteToggle,
@@ -25,8 +27,8 @@ export default function CharacterListItem({
     >
       <img
         className="h-8 w-8 self-center rounded-full"
-        src={`https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`}
-        alt=""
+        src={image}
+        alt={name}
       />
       <div className="flex-1">
         <p className="font-medium">{name}</p>
