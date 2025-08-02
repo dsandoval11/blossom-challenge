@@ -10,10 +10,10 @@ import BackArrowIcon from '~/assets/back-arrow.svg?react';
 interface FilterPanelProps {
   visible?: boolean;
   onClose?: () => void;
-  onFilterChange?: (
-    characterFilter: CharacterFilter,
-    specieFilter: SpecieFilter,
-  ) => void;
+  onFilterChange?: ({}: {
+    characterFilter: CharacterFilter;
+    specieFilter: SpecieFilter;
+  }) => void;
 }
 
 export default function FilterPanel({
@@ -28,6 +28,9 @@ export default function FilterPanel({
     SpecieFilter.All,
   );
 
+  const disableFilterButton =
+    characterFilter === CharacterFilter.All &&
+    specieFilter === SpecieFilter.All;
   return (
     <div
       className={`
@@ -81,13 +84,13 @@ export default function FilterPanel({
       <button
         className={`
           ${
-            characterFilter === CharacterFilter.All &&
-            specieFilter === SpecieFilter.All
+            disableFilterButton
               ? 'cursor-default bg-gray-200 text-gray-500'
               : 'bg-primary-600 text-white'
           }
           w-full rounded-lg py-2 text-sm max-sm:fixed max-sm:right-6 max-sm:bottom-6 max-sm:left-6 max-sm:w-auto`}
-        onClick={() => onFilterChange?.(characterFilter, specieFilter)}
+        onClick={() => onFilterChange?.({ characterFilter, specieFilter })}
+        disabled={disableFilterButton}
       >
         Filter
       </button>
