@@ -9,5 +9,6 @@
   "tailwindFunctions": [
     "clsx"
   ],
-  "tailwindPreserveWhitespace": true
+  "tailwindPreserveWhitespace": true,
+  "singleQuote": true
 }
