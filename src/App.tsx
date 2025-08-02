@@ -1,13 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
-import HomePage from './pages/HomePage/HomePage';
+import { ApolloProvider } from '@apollo/client';
+import AppRoutes from './AppRoutes';
+import client from './lib/apollo';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </BrowserRouter>
+    <ApolloProvider client={client}>
+      <AppRoutes />
+    </ApolloProvider>
   );
 }
 
