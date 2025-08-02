@@ -5,7 +5,7 @@ import {
   CHARACTER_BUTTONS,
   SPECIE_BUTTONS,
 } from '../types/FilterType';
-import BackArrowIcon from '../../../assets/back-arrow.svg?react';
+import BackArrowIcon from '~/assets/back-arrow.svg?react';
 
 interface FilterPanelProps {
   visible?: boolean;
