@@ -1,4 +1,4 @@
-import { CharacterListItem } from './components/CharacterListItem';
+import CharacterListItem from './components/CharacterListItem';
 import SearchInput from './components/SearchInput';
 import characters from './charactersMock.json';
 import CharacterDetail from './components/CharacterDetail';
@@ -18,14 +18,17 @@ export default function Home() {
             Starred Characters (2)
           </h2>
           <ul className="space-y-2">
-            {characters.characters.slice(0, 2).map((character) => (
-              <CharacterListItem
-                key={character.id}
-                id={character.id}
-                name={character.name}
-                species={character.species}
-              />
-            ))}
+            {characters.characters
+              .filter((character) => character.favorite)
+              .map((character) => (
+                <CharacterListItem
+                  key={character.id}
+                  id={character.id}
+                  name={character.name}
+                  species={character.species}
+                  favorite
+                />
+              ))}
           </ul>
         </div>
 
@@ -34,14 +37,16 @@ export default function Home() {
             Characters (4)
           </h2>
           <ul className="space-y-2">
-            {characters.characters.slice(2).map((character) => (
-              <CharacterListItem
-                key={character.id}
-                id={character.id}
-                name={character.name}
-                species={character.species}
-              />
-            ))}
+            {characters.characters
+              .filter((character) => !character.favorite)
+              .map((character) => (
+                <CharacterListItem
+                  key={character.id}
+                  id={character.id}
+                  name={character.name}
+                  species={character.species}
+                />
+              ))}
           </ul>
         </div>
       </aside>

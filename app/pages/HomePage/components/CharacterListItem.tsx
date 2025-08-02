@@ -6,13 +6,17 @@ type CharacterListItemProps = {
   name: string;
   species: string;
   selected?: boolean;
+  favorite?: boolean;
+  onFavoriteToggle?: (id: number) => void;
 };
 
-export function CharacterListItem({
+export default function CharacterListItem({
   id,
   name,
   species,
   selected,
+  favorite = false,
+  onFavoriteToggle,
 }: CharacterListItemProps) {
   return (
     <li
@@ -28,8 +32,15 @@ export function CharacterListItem({
         <p className="font-medium">{name}</p>
         <p className="text-sm text-gray-500">{species}</p>
       </div>
-      <span className="flex h-8 w-8 items-center justify-center self-center rounded-full bg-white">
-        {selected ? <HeartIcon /> : <HeartEmptyIcon />}
+      <span
+        role="button"
+        className="flex h-8 w-8 items-center justify-center self-center rounded-full bg-white"
+        onClick={(e) => {
+          e.stopPropagation();
+          onFavoriteToggle?.(id);
+        }}
+      >
+        {favorite ? <HeartIcon /> : <HeartEmptyIcon />}
       </span>
     </li>
   );

@@ -4,31 +4,36 @@
       "id": 1,
       "name": "Rick Sanchez",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+      "favorite": true
     },
     {
       "id": 2,
       "name": "Morty Smith",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
+      "image": "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+      "favorite": false
     },
     {
       "id": 3,
       "name": "Summer Smith",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/3.jpeg"
+      "image": "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
+      "favorite": false
     },
     {
       "id": 4,
       "name": "Beth Smith",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/4.jpeg"
+      "image": "https://rickandmortyapi.com/api/character/avatar/4.jpeg",
+      "favorite": false
     },
     {
       "id": 5,
       "name": "Jerry Smith",
       "species": "Human",
-      "image": "https://rickandmortyapi.com/api/character/avatar/5.jpeg"
+      "image": "https://rickandmortyapi.com/api/character/avatar/5.jpeg",
+      "favorite": true
     }
   ]
 }
