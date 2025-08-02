@@ -25,7 +25,7 @@ export default function SearchInput() {
       >
         {visible ? <FilterSelectedIcon /> : <FilterIcon />}
       </button>
-      <FilterPanel visible={visible} />
+      <FilterPanel visible={visible} onClose={toggleFilterPanel} />
     </div>
   );
 }

@@ -5,9 +5,11 @@ import {
   CHARACTER_BUTTONS,
   SPECIE_BUTTONS,
 } from '../types/FilterType';
+import BackArrowIcon from '../../../assets/back-arrow.svg?react';
 
 type FilterPanelProps = {
   visible?: boolean;
+  onClose?: () => void;
   onFilterChange?: (
     characterFilter: CharacterFilter,
     specieFilter: SpecieFilter,
@@ -17,6 +19,7 @@ type FilterPanelProps = {
 export default function FilterPanel({
   visible = false,
   onFilterChange,
+  onClose = () => {},
 }: FilterPanelProps) {
   const [characterFilter, setCharacterFilter] = useState<CharacterFilter>(
     CharacterFilter.All,
@@ -29,8 +32,18 @@ export default function FilterPanel({
     <div
       className={`
         ${visible ? 'flex' : 'hidden'}
-        absolute top-14 flex w-full flex-col gap-6 rounded-lg bg-white p-6 shadow-md`}
+        absolute top-14 flex w-full flex-col gap-6 rounded-lg bg-white p-6 shadow-md
+        max-sm:fixed max-sm:inset-0
+      `}
     >
+      <div className="mb-4 hidden items-center max-sm:flex">
+        <button onClick={onClose}>
+          <BackArrowIcon />
+        </button>
+        <h2 className="absolute left-1/2 -translate-x-1/2 text-sm font-bold">
+          Filters
+        </h2>
+      </div>
       <div>
         <h2 className="mb-2 text-sm text-gray-400 ">Characters</h2>
         <div className="flex gap-2">
@@ -73,10 +86,10 @@ export default function FilterPanel({
               ? 'cursor-default bg-gray-200 text-gray-500'
               : 'bg-primary-600 text-white'
           }
-          w-full rounded-lg py-2 text-sm`}
+          w-full rounded-lg py-2 text-sm max-sm:fixed max-sm:right-6 max-sm:bottom-6 max-sm:left-6 max-sm:w-auto`}
         onClick={() => onFilterChange?.(characterFilter, specieFilter)}
       >
-        Filters
+        Filter
       </button>
     </div>
   );
