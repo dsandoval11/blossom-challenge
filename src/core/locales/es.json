@@ -1,0 +1,40 @@
+{
+  "home-page": {
+    "title": "Lista Rick and Morty",
+    "results-filter": "Resultados",
+    "applied-filters": "Filtros aplicados",
+    "sort-by": "Ordenar por",
+    "starred-characters": "Personajes destacados",
+    "other-characters": "Otros personajes",
+    "character-not-selected": "Selecciona un personaje para ver los detalles"
+  },
+  "detail-page": {
+    "specie": "Especie",
+    "status": "Estado",
+    "gender": "Genero"
+  },
+  "comments": {
+    "title": "Comentarios",
+    "add-comment": "Añadir un comentario",
+    "no-comments": "No hay comentarios aún"
+  },
+  "confirm-delete": {
+    "title": "Eliminar personaje",
+    "message": "¿Estás seguro de que quieres eliminar",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar"
+  },
+  "filter-panel": {
+    "search-placeholder": "Buscar o filtrar resultados",
+    "title": "Filtros",
+    "character": "Personajes",
+    "specie": "Especie",
+    "status": "Estado",
+    "gender": "Genero",
+    "button": "Filtrar"
+  },
+  "404-page": {
+    "title": "No encontrado",
+    "message": "La página que estás buscando no existe o ha sido movida."
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SendIcon from '~/assets/send.svg?react';
 import { LS, LSKeys } from '~/core/utils/localeStorage';
 
@@ -7,6 +8,7 @@ export default function CommentSection({
 }: {
   characterId: string;
 }) {
+  const { t } = useTranslation();
   const [newComment, setNewComment] = useState<string>('');
   const [comments, setComments] = useState<{ text: string; date: Date }[]>([]);
 
@@ -37,11 +39,11 @@ export default function CommentSection({
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-semibold">Comments</h3>
+      <h3 className="text-lg font-semibold">{t('comments.title')}</h3>
       <div className="relative mb-6 flex h-13 w-full">
         <input
           type="text"
-          placeholder="Comment"
+          placeholder={t('comments.add-comment')}
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
@@ -57,7 +59,7 @@ export default function CommentSection({
       </div>
       <div className="mt-2 mb-10 space-y-2">
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-500">No comments yet.</p>
+          <p className="text-sm text-gray-500">{t('comments.no-comments')}</p>
         ) : (
           comments.map((comment, index) => (
             <div

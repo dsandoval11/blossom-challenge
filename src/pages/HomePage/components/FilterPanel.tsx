@@ -7,6 +7,7 @@ import {
   GenderFilter,
 } from '../types/FilterType';
 import BackArrowIcon from '~/assets/back-arrow.svg?react';
+import { useTranslation } from 'react-i18next';
 
 interface FilterPanelProps {
   visible?: boolean;
@@ -31,6 +32,7 @@ export default function FilterPanel({
   onFilterChange,
   onClose = () => {},
 }: FilterPanelProps) {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<FiltersPanel>(initialFilterState);
   const [lastAppliedFilters, setLastAppliedFilters] =
     useState<FiltersPanel>(initialFilterState);
@@ -54,25 +56,25 @@ export default function FilterPanel({
 
   const filterSections = [
     {
-      title: 'Characters',
+      title: t('filter-panel.character'),
       filterKey: 'character',
       buttons: Object.values(CharacterFilter),
       currentValue: filters.character,
     },
     {
-      title: 'Specie',
+      title: t('filter-panel.specie'),
       filterKey: 'species',
       buttons: Object.values(SpecieFilter),
       currentValue: filters.species,
     },
     {
-      title: 'Status',
+      title: t('filter-panel.status'),
       filterKey: 'status',
       buttons: Object.values(StatusFilter),
       currentValue: filters.status,
     },
     {
-      title: 'Gender',
+      title: t('filter-panel.gender'),
       filterKey: 'gender',
       buttons: Object.values(GenderFilter),
       currentValue: filters.gender,
@@ -93,7 +95,7 @@ export default function FilterPanel({
           <BackArrowIcon />
         </button>
         <h2 className="absolute left-1/2 -translate-x-1/2 text-sm font-bold">
-          Filters
+          {t('filter-panel.title')}
         </h2>
       </div>
       {filterSections.map(({ title, filterKey, buttons, currentValue }) => (
@@ -126,7 +128,7 @@ export default function FilterPanel({
         onClick={handleFilterClick}
         disabled={disableFilterButton}
       >
-        Filter
+        {t('filter-panel.button')}
       </button>
     </div>
   );

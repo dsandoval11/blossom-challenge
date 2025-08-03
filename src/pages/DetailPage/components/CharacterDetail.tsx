@@ -7,21 +7,23 @@ import { useState } from 'react';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import { useNavigate } from 'react-router';
 import { useRemovedCharactersStore } from '~/core/stores/removeCharacterStore';
+import { useTranslation } from 'react-i18next';
 
 interface CharacterDetailProps {
   character: CharacterDetailType;
 }
 
 export default function CharacterDetail({ character }: CharacterDetailProps) {
+  const { t } = useTranslation();
   const { favorites } = useFavorites();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { removeCharacter } = useRemovedCharactersStore();
   const navigate = useNavigate();
 
   const characterProperties = [
-    { label: 'Specie', value: character.species },
-    { label: 'Status', value: character.status },
-    { label: 'Gender', value: character.gender },
+    { label: t('detail-page.specie'), value: character.species },
+    { label: t('detail-page.status'), value: character.status },
+    { label: t('detail-page.gender'), value: character.gender },
   ];
 
   const handleDeleteClick = () => {

@@ -1,0 +1,40 @@
+{
+  "home-page": {
+    "title": "Rick and Morty list",
+    "results-filter": "Results",
+    "applied-filters": "Filter",
+    "sort-by": "Sort by",
+    "starred-characters": "Starred characters",
+    "other-characters": "Characters",
+    "character-not-selected": "Select a character to see details"
+  },
+  "detail-page": {
+    "specie": "Specie",
+    "status": "Status",
+    "gender": "Gender"
+  },
+  "comments": {
+    "title": "Comments",
+    "add-comment": "Add a comment",
+    "no-comments": "No comments yet"
+  },
+  "confirm-delete": {
+    "title": "Delete Character",
+    "message": "Are you sure you want to delete",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "filter-panel": {
+    "search-placeholder": "Search or filter results",
+    "title": "Filters",
+    "character": "Characters",
+    "specie": "Specie",
+    "status": "Status",
+    "gender": "Gender",
+    "button": "Filter"
+  },
+  "404-page": {
+    "title": "Not Found",
+    "message": "The page you're looking for doesn't exist or has been moved."
+  }
+}

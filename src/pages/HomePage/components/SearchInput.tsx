@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import FilterIcon from '~/assets/filter.svg?react';
 import FilterSelectedIcon from '~/assets/filter-selected.svg?react';
 import SearchIcon from '~/assets/search.svg?react';
@@ -13,6 +14,7 @@ import {
 import { useFilterStore } from '~/core/stores/filterStore';
 
 export default function SearchInput() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState<boolean>(false);
   const { filters, updateFilters } = useFilterStore();
 
@@ -54,7 +56,7 @@ export default function SearchInput() {
       <input
         data-testid="search-input"
         type="text"
-        placeholder="Search or filter results"
+        placeholder={t('filter-panel.search-placeholder')}
         className="w-full rounded-lg bg-gray-100 px-12 py-2 outline-none"
         onBlur={(e) => {
           handleFilterChange({ name: e.target.value });

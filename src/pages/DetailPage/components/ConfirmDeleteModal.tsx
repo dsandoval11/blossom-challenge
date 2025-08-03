@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import WarningIcon from '~/assets/warning.svg?react';
 
 interface ConfirmDeleteModalProps {
@@ -13,6 +14,7 @@ export default function ConfirmDeleteModal({
   onConfirm,
   onCancel,
 }: ConfirmDeleteModalProps) {
+  const { t } = useTranslation();
   return isOpen ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
@@ -30,11 +32,11 @@ export default function ConfirmDeleteModal({
           </div>
 
           <h3 className="mb-2 text-lg font-medium text-gray-900">
-            Delete Character
+            {t('confirm-delete.title')}
           </h3>
 
           <p className="text-md mb-6 text-gray-500">
-            Are you sure you want to delete
+            {t('confirm-delete.message')}
             <span className="font-semibold text-gray-900">{` ${characterName}`}</span>
             ?
           </p>
@@ -45,14 +47,14 @@ export default function ConfirmDeleteModal({
                 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
               onClick={onCancel}
             >
-              Cancel
+              {t('confirm-delete.cancel')}
             </button>
             <button
               className="bg-primary-600 hover:bg-primary-700 flex-1 rounded-md 
                 border border-transparent px-4 py-2 text-sm font-medium text-white"
               onClick={onConfirm}
             >
-              Delete
+              {t('confirm-delete.confirm')}
             </button>
           </div>
         </div>
