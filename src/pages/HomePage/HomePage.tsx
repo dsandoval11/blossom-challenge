@@ -3,9 +3,12 @@ import { Link, Outlet, useLocation } from 'react-router';
 import { useQuery } from '@apollo/client';
 import CharacterListItem from './components/CharacterListItem';
 import SearchInput from './components/SearchInput';
-import { GET_CHARACTERS } from '~/graphql/queries/characters';
+import {
+  GET_CHARACTERS,
+  GET_CHARACTERS_BY_IDS,
+} from '~/graphql/queries/characters';
 import useFavorites from '~/hooks/useFavorites';
-import type { CharactersData } from './types/CharacterType';
+import type { CharactersData, CharactersDataFav } from './types/CharacterType';
 import { SortOrder } from './types/FilterType';
 import SortAZIcon from '~/assets/arrow-down-az.svg?react';
 import SortZAIcon from '~/assets/arrow-down-za.svg?react';
@@ -17,12 +20,30 @@ export default function Home() {
   const location = useLocation();
   const { filters } = useFilterStore();
   const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
-  const { data, loading, error } = useQuery<CharactersData>(GET_CHARACTERS, {
-    variables: { page: 1, filter: filters.query },
-  });
   const { favorites, toggleFavorite } = useFavorites();
+  const { data, loading: loadingAll } = useQuery<CharactersData>(
+    GET_CHARACTERS,
+    {
+      variables: { page: 1, filter: filters.query },
+    },
+  );
+  const { data: dataFav, loading: loadingFav } = useQuery<CharactersDataFav>(
+    GET_CHARACTERS_BY_IDS,
+    {
+      variables: { ids: favorites },
+    },
+  );
+  const loading = loadingAll && loadingFav;
+
   const { starredCharacters, otherCharacters } = useFilteredCharacters({
-    characters: data?.characters.results,
+    characters: Array.from(
+      new Map(
+        [
+          ...(data?.characters.results || []),
+          ...(dataFav?.charactersByIds || []),
+        ].map((character) => [character.id, character]),
+      ).values(),
+    ),
     characterFilter: filters.character,
     favorites,
     sort,

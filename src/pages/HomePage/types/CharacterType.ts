@@ -10,3 +10,7 @@ export interface CharactersData {
     results: Character[];
   };
 }
+
+export interface CharactersDataFav {
+  charactersByIds: Character[];
+}
