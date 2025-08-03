@@ -31,7 +31,7 @@ export default function CharacterListItem({
 
   return (
     <li
-      className={`flex w-full cursor-pointer gap-4 rounded-lg p-[16px_20px]
+      className={`flex w-full cursor-pointer gap-4 rounded-lg px-5 py-4
        ${selected ? 'bg-purple-100' : 'hover:bg-gray-100'}`}
       onClick={() => navigate(`character/${id}`)}
     >
@@ -52,7 +52,11 @@ export default function CharacterListItem({
           onFavoriteToggle?.(id);
         }}
       >
-        {favorite ? <HeartIcon /> : <HeartEmptyIcon />}
+        {favorite ? (
+          <HeartIcon data-testid="heart-icon" />
+        ) : (
+          <HeartEmptyIcon data-testid="heart-empty-icon" />
+        )}
       </span>
     </li>
   );

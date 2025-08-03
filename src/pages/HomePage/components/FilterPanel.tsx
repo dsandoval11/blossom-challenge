@@ -81,6 +81,7 @@ export default function FilterPanel({
 
   return (
     <div
+      data-testid="filter-panel-container"
       className={`
         ${visible ? 'flex' : 'hidden'}
         absolute top-14 flex w-full flex-col gap-6 rounded-lg bg-white p-6 shadow-md
@@ -96,7 +97,7 @@ export default function FilterPanel({
         </h2>
       </div>
       {filterSections.map(({ title, filterKey, buttons, currentValue }) => (
-        <div key={filterKey}>
+        <div key={filterKey} data-testid={filterKey}>
           <h2 className="mb-2 text-sm text-gray-400">{title}</h2>
           <div className="grid grid-cols-3 gap-2">
             {buttons.map((button) => (

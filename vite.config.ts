@@ -6,4 +6,9 @@ import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [tailwindcss(), react(), tsconfigPaths(), svgr()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/core/test/setup.tsx', './src/core/test/utils.tsx'],
+  },
 });
