@@ -22,5 +22,16 @@ export interface QueryFilter {
   gender?: string;
 }
 
+export interface PageFilter {
+  query: QueryFilter;
+  characterFilter: CharacterFilter;
+  filterCounter: number;
+}
+
+export enum SortOrder {
+  Ascending = 'asc',
+  Descending = 'desc',
+}
+
 export const CHARACTER_BUTTONS = Object.values(CharacterFilter);
 export const SPECIE_BUTTONS = Object.values(SpecieFilter);

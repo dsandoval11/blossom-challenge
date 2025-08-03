@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 import { useQuery } from '@apollo/client';
 import CharacterListItem from './components/CharacterListItem';
@@ -5,24 +6,34 @@ import SearchInput from './components/SearchInput';
 import { GET_CHARACTERS } from '~/graphql/queries/characters';
 import useFavorites from '~/hooks/useFavorites';
 import type { CharactersData } from './types/CharacterType';
-import { CharacterFilter, type QueryFilter } from './types/FilterType';
-import { useState } from 'react';
+import {
+  CharacterFilter,
+  SortOrder,
+  type PageFilter,
+  type QueryFilter,
+} from './types/FilterType';
+import SortAZIcon from '~/assets/arrow-down-az.svg?react';
+import SortZAIcon from '~/assets/arrow-down-za.svg?react';
+import { useFilteredCharacters } from '~/hooks/useFilteredCharacters';
 
 export default function Home() {
-  const [filters, setFilters] = useState<{
-    query: QueryFilter;
-    characterFilter: CharacterFilter;
-    filterCounter: number;
-  }>({
+  const [filters, setFilters] = useState<PageFilter>({
     query: {},
     characterFilter: CharacterFilter.All,
     filterCounter: 0,
   });
+  const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
   const { data, loading, error } = useQuery<CharactersData>(GET_CHARACTERS, {
     variables: { page: 1, filter: filters.query },
   });
   const { favorites, toggleFavorite } = useFavorites();
   const location = useLocation();
+  const { starredCharacters, otherCharacters } = useFilteredCharacters({
+    characters: data?.characters.results,
+    characterFilter: filters.characterFilter,
+    favorites,
+    sort,
+  });
 
   const handleFilterChange = ({
     queryFilter,
@@ -36,24 +47,6 @@ export default function Home() {
     filterCounter += queryFilter.species !== '' ? 1 : 0;
     setFilters({ query: queryFilter, characterFilter, filterCounter });
   };
-
-  const starredCharacters = [
-    CharacterFilter.Starred,
-    CharacterFilter.All,
-  ].includes(filters.characterFilter)
-    ? data?.characters?.results?.filter((character) =>
-        favorites.includes(character.id),
-      ) || []
-    : [];
-
-  const otherCharacters = [
-    CharacterFilter.Others,
-    CharacterFilter.All,
-  ].includes(filters.characterFilter)
-    ? data?.characters?.results?.filter(
-        (character) => !favorites.includes(character.id),
-      ) || []
-    : [];
 
   return (
     <div className="flex h-screen font-sans">
@@ -78,6 +71,31 @@ export default function Home() {
             </span>
           </div>
         )}
+
+        <div className="mb-4 flex px-5">
+          <span className="flex items-center text-sm font-medium text-gray-400">
+            Sort by:
+          </span>
+          <div className="ml-2">
+            <button
+              className="bg-primary-600 hover:bg-primary-700 flex h-6 w-6 items-center justify-center 
+              rounded-full text-white focus:ring-2"
+              onClick={() => {
+                setSort(
+                  sort === SortOrder.Ascending
+                    ? SortOrder.Descending
+                    : SortOrder.Ascending,
+                );
+              }}
+            >
+              {sort === SortOrder.Ascending ? (
+                <SortAZIcon width={16} height={16} />
+              ) : (
+                <SortZAIcon width={16} height={16} />
+              )}
+            </button>
+          </div>
+        </div>
 
         {!loading && starredCharacters.length > 0 && (
           <div className="mb-4">
