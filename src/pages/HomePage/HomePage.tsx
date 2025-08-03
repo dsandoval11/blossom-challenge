@@ -19,20 +19,12 @@ export default function Home() {
   const { t, i18n } = useTranslation();
   const { filters } = useFilterStore();
   const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
-  const { favorites, toggleFavorite } = useFavorites();
-  const { data, loading } = useQuery<CharactersData>(GET_CHARACTERS, {
-    variables: { ids: favorites, page: 1, filter: filters.query },
+  const { data, loading, error } = useQuery<CharactersData>(GET_CHARACTERS, {
+    variables: { page: 1, filter: filters.query },
   });
-
+  const { favorites, toggleFavorite } = useFavorites();
   const { starredCharacters, otherCharacters } = useFilteredCharacters({
-    characters: Array.from(
-      new Map(
-        [
-          ...(data?.characters.results || []),
-          ...(data?.charactersByIds || []),
-        ].map((character) => [character.id, character]),
-      ).values(),
-    ),
+    characters: data?.characters.results,
     characterFilter: filters.character,
     favorites,
     sort,

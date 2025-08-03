@@ -9,5 +9,4 @@ export interface CharactersData {
   characters: {
     results: Character[];
   };
-  charactersByIds: Character[];
 }
