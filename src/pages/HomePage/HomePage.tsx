@@ -6,47 +6,26 @@ import SearchInput from './components/SearchInput';
 import { GET_CHARACTERS } from '~/graphql/queries/characters';
 import useFavorites from '~/hooks/useFavorites';
 import type { CharactersData } from './types/CharacterType';
-import {
-  CharacterFilter,
-  SortOrder,
-  type PageFilter,
-  type QueryFilter,
-} from './types/FilterType';
+import { SortOrder } from './types/FilterType';
 import SortAZIcon from '~/assets/arrow-down-az.svg?react';
 import SortZAIcon from '~/assets/arrow-down-za.svg?react';
 import { useFilteredCharacters } from '~/hooks/useFilteredCharacters';
+import { useFilterStore } from '~/core/stores/filterStore';
 
 export default function Home() {
-  const [filters, setFilters] = useState<PageFilter>({
-    query: {},
-    characterFilter: CharacterFilter.All,
-    filterCounter: 0,
-  });
+  const location = useLocation();
+  const { filters } = useFilterStore();
   const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
   const { data, loading, error } = useQuery<CharactersData>(GET_CHARACTERS, {
     variables: { page: 1, filter: filters.query },
   });
   const { favorites, toggleFavorite } = useFavorites();
-  const location = useLocation();
   const { starredCharacters, otherCharacters } = useFilteredCharacters({
     characters: data?.characters.results,
     characterFilter: filters.characterFilter,
     favorites,
     sort,
   });
-
-  const handleFilterChange = ({
-    queryFilter,
-    characterFilter,
-  }: {
-    queryFilter: QueryFilter;
-    characterFilter: CharacterFilter;
-  }) => {
-    let filterCounter = 0;
-    filterCounter += characterFilter !== CharacterFilter.All ? 1 : 0;
-    filterCounter += queryFilter.species !== '' ? 1 : 0;
-    setFilters({ query: queryFilter, characterFilter, filterCounter });
-  };
 
   return (
     <div className="flex h-screen font-sans">
@@ -59,7 +38,7 @@ export default function Home() {
           <Link to="/">Rick and Morty list</Link>
         </h1>
 
-        <SearchInput onFilterChange={handleFilterChange} />
+        <SearchInput />
 
         {filters.filterCounter > 0 && (
           <div className="flex justify-between px-5 pb-4">
@@ -72,30 +51,32 @@ export default function Home() {
           </div>
         )}
 
-        <div className="mb-4 flex px-5">
-          <span className="flex items-center text-sm font-medium text-gray-400">
-            Sort by:
-          </span>
-          <div className="ml-2">
-            <button
-              className="bg-primary-600 hover:bg-primary-700 flex h-6 w-6 items-center justify-center 
+        {otherCharacters.length + starredCharacters.length > 0 && !loading && (
+          <div className="mb-4 flex px-5">
+            <span className="flex items-center text-sm font-medium text-gray-400">
+              Sort by:
+            </span>
+            <div className="ml-2">
+              <button
+                className="bg-primary-600 hover:bg-primary-700 flex h-6 w-6 items-center justify-center 
               rounded-full text-white focus:ring-2"
-              onClick={() => {
-                setSort(
-                  sort === SortOrder.Ascending
-                    ? SortOrder.Descending
-                    : SortOrder.Ascending,
-                );
-              }}
-            >
-              {sort === SortOrder.Ascending ? (
-                <SortAZIcon width={16} height={16} />
-              ) : (
-                <SortZAIcon width={16} height={16} />
-              )}
-            </button>
+                onClick={() => {
+                  setSort(
+                    sort === SortOrder.Ascending
+                      ? SortOrder.Descending
+                      : SortOrder.Ascending,
+                  );
+                }}
+              >
+                {sort === SortOrder.Ascending ? (
+                  <SortAZIcon width={16} height={16} />
+                ) : (
+                  <SortZAIcon width={16} height={16} />
+                )}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {!loading && starredCharacters.length > 0 && (
           <div className="mb-4">

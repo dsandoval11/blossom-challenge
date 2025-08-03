@@ -8,37 +8,34 @@ import {
   SpecieFilter,
   type QueryFilter,
 } from '../types/FilterType';
+import { useFilterStore } from '~/core/stores/filterStore';
 
-interface SearchInputProps {
-  onFilterChange?: ({
-    queryFilter,
-    characterFilter,
-  }: {
-    queryFilter: QueryFilter;
-    characterFilter: CharacterFilter;
-  }) => void;
-}
-
-export default function SearchInput({ onFilterChange }: SearchInputProps) {
+export default function SearchInput() {
   const [visible, setVisible] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { filters, updateFilters } = useFilterStore();
 
   const toggleFilterPanel = () => {
     setVisible(!visible);
   };
 
   const handleFilterChange = (
-    filters: QueryFilter & { characterFilter: CharacterFilter },
+    newFilters: Partial<QueryFilter & { characterFilter: CharacterFilter }>,
   ) => {
     setVisible(false);
-    onFilterChange?.({
-      queryFilter: {
-        name: searchTerm,
-        status: filters.status,
-        species: filters.species === SpecieFilter.All ? '' : filters.species,
-        gender: filters.gender,
+    updateFilters({
+      query: {
+        name: newFilters.name ?? filters.query.name ?? '',
+        status: newFilters.status ?? filters.query.status ?? '',
+        species:
+          newFilters.species === SpecieFilter.All
+            ? ''
+            : (newFilters.species ?? filters.query.species ?? ''),
+        gender: newFilters.gender ?? filters.query.gender ?? '',
       },
-      characterFilter: filters.characterFilter,
+      characterFilter:
+        newFilters.characterFilter ??
+        filters.characterFilter ??
+        CharacterFilter.All,
     });
   };
 
@@ -49,13 +46,19 @@ export default function SearchInput({ onFilterChange }: SearchInputProps) {
         type="text"
         placeholder="Search or filter results"
         className="w-full rounded-lg bg-gray-100 px-12 py-2 outline-none"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onBlur={(e) => {
+          handleFilterChange({ name: e.target.value });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleFilterChange({ name: e.currentTarget.value });
+          }
+        }}
       />
       <button
         className={`
-          ${visible ? 'bg-primary-100' : 'hover:bg-gray-200'}
-          absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-lg p-2.5`}
+        ${visible ? 'bg-primary-100' : 'hover:bg-gray-200'}
+        absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-lg p-2.5`}
         onClick={toggleFilterPanel}
       >
         {visible ? <FilterSelectedIcon /> : <FilterIcon />}
@@ -65,9 +68,7 @@ export default function SearchInput({ onFilterChange }: SearchInputProps) {
         onClose={toggleFilterPanel}
         onFilterChange={({ characterFilter, specieFilter: species }) => {
           handleFilterChange({
-            status: '',
             species,
-            gender: '',
             characterFilter,
           });
         }}
