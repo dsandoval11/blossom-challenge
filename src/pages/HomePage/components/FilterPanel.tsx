@@ -4,6 +4,7 @@ import {
   SpecieFilter,
   CHARACTER_BUTTONS,
   SPECIE_BUTTONS,
+  type FiltersPanel,
 } from '../types/FilterType';
 import BackArrowIcon from '~/assets/back-arrow.svg?react';
 
@@ -21,16 +22,28 @@ export default function FilterPanel({
   onFilterChange,
   onClose = () => {},
 }: FilterPanelProps) {
-  const [characterFilter, setCharacterFilter] = useState<CharacterFilter>(
-    CharacterFilter.All,
-  );
-  const [specieFilter, setSpecieFilter] = useState<SpecieFilter>(
-    SpecieFilter.All,
-  );
+  const [filters, setFilters] = useState<FiltersPanel>({
+    character: CharacterFilter.All,
+    specie: SpecieFilter.All,
+  });
+
+  const [lastAppliedFilters, setLastAppliedFilters] = useState<FiltersPanel>({
+    character: CharacterFilter.All,
+    specie: SpecieFilter.All,
+  });
 
   const disableFilterButton =
-    characterFilter === CharacterFilter.All &&
-    specieFilter === SpecieFilter.All;
+    filters.character === lastAppliedFilters.character &&
+    filters.specie === lastAppliedFilters.specie;
+
+  const handleFilterClick = () => {
+    onFilterChange?.({
+      characterFilter: filters.character,
+      specieFilter: filters.specie,
+    });
+    setLastAppliedFilters({ ...filters });
+  };
+
   return (
     <div
       className={`
@@ -54,9 +67,9 @@ export default function FilterPanel({
             <button
               key={button}
               className={`
-                  ${characterFilter === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
+                  ${filters.character === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
                   flex-1 rounded-lg p-2.5 text-sm hover:text-gray-700`}
-              onClick={() => setCharacterFilter(button)}
+              onClick={() => setFilters({ ...filters, character: button })}
             >
               {button}
             </button>
@@ -71,9 +84,9 @@ export default function FilterPanel({
             <button
               key={button}
               className={`
-                  ${specieFilter === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
+                  ${filters.specie === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
                   flex-1 rounded-lg p-2.5 text-sm hover:text-gray-700`}
-              onClick={() => setSpecieFilter(button)}
+              onClick={() => setFilters({ ...filters, specie: button })}
             >
               {button}
             </button>
@@ -89,7 +102,7 @@ export default function FilterPanel({
               : 'bg-primary-600 text-white'
           }
           w-full rounded-lg py-2 text-sm max-sm:fixed max-sm:right-6 max-sm:bottom-6 max-sm:left-6 max-sm:w-auto`}
-        onClick={() => onFilterChange?.({ characterFilter, specieFilter })}
+        onClick={handleFilterClick}
         disabled={disableFilterButton}
       >
         Filter

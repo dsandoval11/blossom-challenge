@@ -10,6 +10,11 @@ export enum SpecieFilter {
   Alien = 'Alien',
 }
 
+export interface FiltersPanel {
+  character: CharacterFilter;
+  specie: SpecieFilter;
+}
+
 export interface QueryFilter {
   name?: string;
   status?: string;
