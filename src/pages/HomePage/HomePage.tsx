@@ -22,7 +22,7 @@ export default function Home() {
   const { favorites, toggleFavorite } = useFavorites();
   const { starredCharacters, otherCharacters } = useFilteredCharacters({
     characters: data?.characters.results,
-    characterFilter: filters.characterFilter,
+    characterFilter: filters.character,
     favorites,
     sort,
   });

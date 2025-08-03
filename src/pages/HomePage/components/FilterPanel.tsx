@@ -2,9 +2,9 @@ import { useState } from 'react';
 import {
   CharacterFilter,
   SpecieFilter,
-  CHARACTER_BUTTONS,
-  SPECIE_BUTTONS,
   type FiltersPanel,
+  StatusFilter,
+  GenderFilter,
 } from '../types/FilterType';
 import BackArrowIcon from '~/assets/back-arrow.svg?react';
 
@@ -12,37 +12,72 @@ interface FilterPanelProps {
   visible?: boolean;
   onClose?: () => void;
   onFilterChange?: ({}: {
-    characterFilter: CharacterFilter;
-    specieFilter: SpecieFilter;
+    character: CharacterFilter;
+    species: SpecieFilter;
+    status: StatusFilter;
+    gender: GenderFilter;
   }) => void;
 }
+
+const initialFilterState: FiltersPanel = {
+  character: CharacterFilter.All,
+  species: SpecieFilter.All,
+  status: StatusFilter.All,
+  gender: GenderFilter.All,
+};
 
 export default function FilterPanel({
   visible = false,
   onFilterChange,
   onClose = () => {},
 }: FilterPanelProps) {
-  const [filters, setFilters] = useState<FiltersPanel>({
-    character: CharacterFilter.All,
-    specie: SpecieFilter.All,
-  });
+  const [filters, setFilters] = useState<FiltersPanel>(initialFilterState);
+  const [lastAppliedFilters, setLastAppliedFilters] =
+    useState<FiltersPanel>(initialFilterState);
 
-  const [lastAppliedFilters, setLastAppliedFilters] = useState<FiltersPanel>({
-    character: CharacterFilter.All,
-    specie: SpecieFilter.All,
-  });
-
-  const disableFilterButton =
-    filters.character === lastAppliedFilters.character &&
-    filters.specie === lastAppliedFilters.specie;
+  const disableFilterButton = Object.keys(filters).every(
+    (key) =>
+      filters[key as keyof FiltersPanel] ===
+      lastAppliedFilters[key as keyof FiltersPanel],
+  );
 
   const handleFilterClick = () => {
     onFilterChange?.({
-      characterFilter: filters.character,
-      specieFilter: filters.specie,
+      character: filters.character,
+      species: filters.species,
+      status: filters.status,
+      gender: filters.gender,
     });
+
     setLastAppliedFilters({ ...filters });
   };
+
+  const filterSections = [
+    {
+      title: 'Characters',
+      filterKey: 'character',
+      buttons: Object.values(CharacterFilter),
+      currentValue: filters.character,
+    },
+    {
+      title: 'Specie',
+      filterKey: 'species',
+      buttons: Object.values(SpecieFilter),
+      currentValue: filters.species,
+    },
+    {
+      title: 'Status',
+      filterKey: 'status',
+      buttons: Object.values(StatusFilter),
+      currentValue: filters.status,
+    },
+    {
+      title: 'Gender',
+      filterKey: 'gender',
+      buttons: Object.values(GenderFilter),
+      currentValue: filters.gender,
+    },
+  ];
 
   return (
     <div
@@ -60,39 +95,24 @@ export default function FilterPanel({
           Filters
         </h2>
       </div>
-      <div>
-        <h2 className="mb-2 text-sm text-gray-400 ">Characters</h2>
-        <div className="flex gap-2">
-          {CHARACTER_BUTTONS.map((button) => (
-            <button
-              key={button}
-              className={`
-                  ${filters.character === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
-                  flex-1 rounded-lg p-2.5 text-sm hover:text-gray-700`}
-              onClick={() => setFilters({ ...filters, character: button })}
-            >
-              {button}
-            </button>
-          ))}
+      {filterSections.map(({ title, filterKey, buttons, currentValue }) => (
+        <div key={filterKey}>
+          <h2 className="mb-2 text-sm text-gray-400">{title}</h2>
+          <div className="grid grid-cols-3 gap-2">
+            {buttons.map((button) => (
+              <button
+                key={button}
+                className={`
+                ${currentValue === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
+                rounded-lg p-2.5 text-sm hover:text-gray-700`}
+                onClick={() => setFilters({ ...filters, [filterKey]: button })}
+              >
+                {button}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-
-      <div>
-        <h2 className="mb-2 text-sm text-gray-400">Specie</h2>
-        <div className="flex gap-2">
-          {SPECIE_BUTTONS.map((button) => (
-            <button
-              key={button}
-              className={`
-                  ${filters.specie === button ? 'bg-primary-100 text-primary-600' : 'border border-gray-200 bg-white'}
-                  flex-1 rounded-lg p-2.5 text-sm hover:text-gray-700`}
-              onClick={() => setFilters({ ...filters, specie: button })}
-            >
-              {button}
-            </button>
-          ))}
-        </div>
-      </div>
+      ))}
 
       <button
         className={`

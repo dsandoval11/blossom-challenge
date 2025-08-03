@@ -17,7 +17,7 @@ const initialFilters: PageFilter = {
     species: '',
     gender: '',
   },
-  characterFilter: CharacterFilter.All,
+  character: CharacterFilter.All,
   filterCounter: 0,
 };
 
@@ -28,8 +28,10 @@ export const useFilterStore = create<FilterState>((set, get) => ({
     set((state) => {
       const updated = { ...state.filters, ...newFilters };
       let count = 0;
-      if (updated.characterFilter !== CharacterFilter.All) count++;
+      if (updated.character !== CharacterFilter.All) count++;
       if (updated.query.species && updated.query.species !== '') count++;
+      if (updated.query.status && updated.query.status !== '') count++;
+      if (updated.query.gender && updated.query.gender !== '') count++;
 
       return {
         filters: {

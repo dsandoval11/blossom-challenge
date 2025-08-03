@@ -10,9 +10,25 @@ export enum SpecieFilter {
   Alien = 'Alien',
 }
 
+export enum StatusFilter {
+  All = 'All',
+  Alive = 'Alive',
+  Dead = 'Dead',
+  Unknown = 'Unknown',
+}
+
+export enum GenderFilter {
+  All = 'All',
+  Male = 'Male',
+  Female = 'Female',
+  Unknown = 'Unknown',
+}
+
 export interface FiltersPanel {
   character: CharacterFilter;
-  specie: SpecieFilter;
+  species: SpecieFilter;
+  status: StatusFilter;
+  gender: GenderFilter;
 }
 
 export interface QueryFilter {
@@ -24,7 +40,7 @@ export interface QueryFilter {
 
 export interface PageFilter {
   query: QueryFilter;
-  characterFilter: CharacterFilter;
+  character: CharacterFilter;
   filterCounter: number;
 }
 
@@ -32,6 +48,3 @@ export enum SortOrder {
   Ascending = 'asc',
   Descending = 'desc',
 }
-
-export const CHARACTER_BUTTONS = Object.values(CharacterFilter);
-export const SPECIE_BUTTONS = Object.values(SpecieFilter);

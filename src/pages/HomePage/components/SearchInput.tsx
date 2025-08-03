@@ -5,7 +5,9 @@ import SearchIcon from '~/assets/search.svg?react';
 import FilterPanel from './FilterPanel';
 import {
   CharacterFilter,
+  GenderFilter,
   SpecieFilter,
+  StatusFilter,
   type QueryFilter,
 } from '../types/FilterType';
 import { useFilterStore } from '~/core/stores/filterStore';
@@ -19,23 +21,27 @@ export default function SearchInput() {
   };
 
   const handleFilterChange = (
-    newFilters: Partial<QueryFilter & { characterFilter: CharacterFilter }>,
+    newFilters: Partial<QueryFilter & { character: CharacterFilter }>,
   ) => {
     setVisible(false);
     updateFilters({
       query: {
         name: newFilters.name ?? filters.query.name ?? '',
-        status: newFilters.status ?? filters.query.status ?? '',
+        status:
+          newFilters.status === StatusFilter.All
+            ? ''
+            : (newFilters.status ?? filters.query.status ?? ''),
         species:
           newFilters.species === SpecieFilter.All
             ? ''
             : (newFilters.species ?? filters.query.species ?? ''),
-        gender: newFilters.gender ?? filters.query.gender ?? '',
+        gender:
+          newFilters.gender === GenderFilter.All
+            ? ''
+            : (newFilters.gender ?? filters.query.gender ?? ''),
       },
-      characterFilter:
-        newFilters.characterFilter ??
-        filters.characterFilter ??
-        CharacterFilter.All,
+      character:
+        newFilters.character ?? filters.character ?? CharacterFilter.All,
     });
   };
 
@@ -66,12 +72,7 @@ export default function SearchInput() {
       <FilterPanel
         visible={visible}
         onClose={toggleFilterPanel}
-        onFilterChange={({ characterFilter, specieFilter: species }) => {
-          handleFilterChange({
-            species,
-            characterFilter,
-          });
-        }}
+        onFilterChange={handleFilterChange}
       />
     </div>
   );
