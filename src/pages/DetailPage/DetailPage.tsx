@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import CharacterDetail from './components/CharacterDetail';
 import { GET_CHARACTER_BY_ID } from '~/graphql/queries/characters';
 import BackArrowIcon from '~/assets/back-arrow.svg?react';
+import { Spinner } from '~/core/components/Spinner';
 
 export default function DetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +13,7 @@ export default function DetailPage() {
 
   return (
     <>
-      {loading && <p>Loading...</p>}
+      {loading && <Spinner />}
       {error && (
         <div className="flex h-screen flex-1 items-center justify-center">
           <p className="text-lg text-gray-500">Character not found</p>

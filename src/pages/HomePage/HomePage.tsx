@@ -11,6 +11,7 @@ import SortAZIcon from '~/assets/arrow-down-az.svg?react';
 import SortZAIcon from '~/assets/arrow-down-za.svg?react';
 import { useFilteredCharacters } from '~/hooks/useFilteredCharacters';
 import { useFilterStore } from '~/core/stores/filterStore';
+import { Spinner } from '~/core/components/Spinner';
 
 export default function Home() {
   const location = useLocation();
@@ -50,6 +51,8 @@ export default function Home() {
             </span>
           </div>
         )}
+
+        {loading && <Spinner />}
 
         {otherCharacters.length + starredCharacters.length > 0 && !loading && (
           <div className="mb-4 flex px-5">
@@ -99,7 +102,7 @@ export default function Home() {
           </div>
         )}
 
-        {otherCharacters.length > 0 && (
+        {!loading && otherCharacters.length > 0 && (
           <>
             <h2 className="mb-2 ml-5 text-sm text-gray-400 uppercase">
               Characters ({otherCharacters.length || 0})
