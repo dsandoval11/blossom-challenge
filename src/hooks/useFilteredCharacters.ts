@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useRemovedCharactersStore } from '~/core/stores/removeCharacterStore';
 import type { Character } from '~/pages/HomePage/types/CharacterType';
 import { CharacterFilter, SortOrder } from '~/pages/HomePage/types/FilterType';
 
@@ -15,6 +16,8 @@ export const useFilteredCharacters = ({
   favorites,
   sort,
 }: UseFilteredCharactersProps) => {
+  const { removedCharacters } = useRemovedCharactersStore();
+
   const sortCharacters = (characterList: Character[], sortOrder: SortOrder) => {
     return characterList.sort((a, b) => {
       if (sortOrder === SortOrder.Ascending) {
@@ -34,7 +37,11 @@ export const useFilteredCharacters = ({
 
     if (!shouldInclude) return [];
 
-    const filtered = characters.filter((character) =>
+    const availableCharacters = characters.filter(
+      (character) => !removedCharacters.includes(character.id),
+    );
+
+    const filtered = availableCharacters.filter((character) =>
       isStarred
         ? favorites.includes(character.id)
         : !favorites.includes(character.id),
@@ -45,12 +52,12 @@ export const useFilteredCharacters = ({
 
   const starredCharacters = useMemo(
     () => getFilteredAndSortedCharacters(true),
-    [characters, characterFilter, favorites, sort],
+    [characters, characterFilter, favorites, sort, removedCharacters],
   );
 
   const otherCharacters = useMemo(
     () => getFilteredAndSortedCharacters(false),
-    [characters, characterFilter, favorites, sort],
+    [characters, characterFilter, favorites, sort, removedCharacters],
   );
 
   return {

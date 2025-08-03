@@ -1,7 +1,12 @@
 import HeartIcon from '~/assets/heart.svg?react';
+import TrashIcon from '~/assets/trash.svg?react';
 import type { CharacterDetailType } from '../types/CharacterDetailType';
 import useFavorites from '~/hooks/useFavorites';
 import CommentSection from './CommentSection';
+import { useState } from 'react';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import { useNavigate } from 'react-router';
+import { useRemovedCharactersStore } from '~/core/stores/removeCharacterStore';
 
 interface CharacterDetailProps {
   character: CharacterDetailType;
@@ -9,6 +14,9 @@ interface CharacterDetailProps {
 
 export default function CharacterDetail({ character }: CharacterDetailProps) {
   const { favorites } = useFavorites();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { removeCharacter } = useRemovedCharactersStore();
+  const navigate = useNavigate();
 
   const characterProperties = [
     { label: 'Specie', value: character.species },
@@ -16,10 +24,24 @@ export default function CharacterDetail({ character }: CharacterDetailProps) {
     { label: 'Gender', value: character.gender },
   ];
 
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    removeCharacter(character.id);
+    setShowDeleteModal(false);
+    navigate('/');
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
+  };
+
   return (
     <>
       <div className="mb-8 flex flex-col gap-4">
-        <div className="relative">
+        <div className="relative flex justify-between">
           <img
             src={character.image}
             alt={character.name}
@@ -33,6 +55,12 @@ export default function CharacterDetail({ character }: CharacterDetailProps) {
               <HeartIcon />
             </span>
           )}
+          <button
+            className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full bg-red-100 p-2.5 hover:bg-red-200"
+            onClick={handleDeleteClick}
+          >
+            <TrashIcon className="text-red-600" />
+          </button>
         </div>
         <div>
           <h2 className="text-2xl font-semibold">{character.name}</h2>
@@ -51,6 +79,13 @@ export default function CharacterDetail({ character }: CharacterDetailProps) {
       </div>
 
       <CommentSection characterId={character.id} />
+
+      <ConfirmDeleteModal
+        isOpen={showDeleteModal}
+        characterName={character.name}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </>
   );
 }

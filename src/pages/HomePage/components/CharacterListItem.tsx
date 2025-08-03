@@ -31,7 +31,7 @@ export default function CharacterListItem({
 
   return (
     <li
-      className={`flex h-18.5 w-full cursor-pointer gap-4 rounded-lg p-[16px_20px]
+      className={`flex w-full cursor-pointer gap-4 rounded-lg p-[16px_20px]
        ${selected ? 'bg-purple-100' : 'hover:bg-gray-100'}`}
       onClick={() => navigate(`character/${id}`)}
     >

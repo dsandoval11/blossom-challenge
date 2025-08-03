@@ -1,6 +1,7 @@
 export enum LSKeys {
   favorites = 'favorites',
   comments = 'comments_post_',
+  removedCharacters = 'removed_characters',
 }
 
 export const LS = {

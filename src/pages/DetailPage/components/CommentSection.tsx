@@ -52,7 +52,7 @@ export default function CommentSection({
           className={`
           absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-lg p-2.5`}
         >
-          <SendIcon color="#8054c7" />
+          <SendIcon className="text-primary-600" />
         </button>
       </div>
       <div className="mt-2 mb-10 space-y-2">
