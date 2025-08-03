@@ -9,8 +9,5 @@ export interface CharactersData {
   characters: {
     results: Character[];
   };
-}
-
-export interface CharactersDataFav {
   charactersByIds: Character[];
 }

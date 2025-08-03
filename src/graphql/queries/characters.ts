@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GET_CHARACTERS = gql`
-  query GetCharacters($page: Int!, $filter: FilterCharacter) {
+  query GetCharacters($page: Int!, $filter: FilterCharacter, $ids: [ID!]!) {
     characters(page: $page, filter: $filter) {
       results {
         id
@@ -9,6 +9,12 @@ export const GET_CHARACTERS = gql`
         image
         species
       }
+    }
+    charactersByIds(ids: $ids) {
+      id
+      name
+      image
+      species
     }
   }
 `;
@@ -22,17 +28,6 @@ export const GET_CHARACTER_BY_ID = gql`
       species
       status
       gender
-    }
-  }
-`;
-
-export const GET_CHARACTERS_BY_IDS = gql`
-  query GetCharactersByIds($ids: [ID!]!) {
-    charactersByIds(ids: $ids) {
-      id
-      name
-      image
-      species
     }
   }
 `;
