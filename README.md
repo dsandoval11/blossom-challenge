@@ -10,6 +10,9 @@ A modern React application for exploring Rick and Morty characters with advanced
 - 🗑️ **Character management**: Delete characters.
 - 💬 **Comments system**: Add comments to characters with local storage.
 
+## Screenshots
+<img width="1515" height="993" alt="Captura desde 2025-08-03 13-51-17" src="https://github.com/user-attachments/assets/c740f103-a913-4601-a16f-702b4ad7d3ff" />
+
 ## Tech Stack
 
 - **Frontend**: React 18, TypeScript
