@@ -1,6 +1,7 @@
 import HeartIcon from '~/assets/heart.svg?react';
 import type { CharacterDetailType } from '../types/CharacterDetailType';
 import useFavorites from '~/hooks/useFavorites';
+import CommentSection from './CommentSection';
 
 interface CharacterDetailProps {
   character: CharacterDetailType;
@@ -8,6 +9,12 @@ interface CharacterDetailProps {
 
 export default function CharacterDetail({ character }: CharacterDetailProps) {
   const { favorites } = useFavorites();
+
+  const characterProperties = [
+    { label: 'Specie', value: character.species },
+    { label: 'Status', value: character.status },
+    { label: 'Gender', value: character.gender },
+  ];
 
   return (
     <>
@@ -34,20 +41,16 @@ export default function CharacterDetail({ character }: CharacterDetailProps) {
 
       <div className="space-y-4">
         <div className="divide-y divide-gray-200">
-          <div className="pb-4">
-            <p className="text-sm text-gray-500">Specie</p>
-            <p className="font-medium">{character.species}</p>
-          </div>
-          <div className="py-4">
-            <p className="text-sm text-gray-500">Status</p>
-            <p className="font-medium">{character.status}</p>
-          </div>
-          <div className="pt-4">
-            <p className="text-sm text-gray-500">Gender</p>
-            <p className="font-medium">{character.gender}</p>
-          </div>
+          {characterProperties.map((prop) => (
+            <div key={prop.label} className="py-4">
+              <p className="text-sm text-gray-500">{prop.label}</p>
+              <p className="font-medium">{prop.value}</p>
+            </div>
+          ))}
         </div>
       </div>
+
+      <CommentSection characterId={character.id} />
     </>
   );
 }

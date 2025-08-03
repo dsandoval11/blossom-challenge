@@ -1,9 +1,10 @@
 export enum LSKeys {
   favorites = 'favorites',
+  comments = 'comments_post_',
 }
 
 export const LS = {
-  get: (key: LSKeys) => {
+  get: (key: string) => {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : null;
@@ -12,14 +13,14 @@ export const LS = {
       return null;
     }
   },
-  set: (key: LSKeys, value: object) => {
+  set: (key: string, value: object) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       console.error('localStorage set error', error);
     }
   },
-  remove: (key: LSKeys) => {
+  remove: (key: string) => {
     try {
       localStorage.removeItem(key);
     } catch (error) {
