@@ -1,87 +1,162 @@
-# Welcome to React Router!
+# Rick and Morty character explorer
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+A modern React application for exploring Rick and Morty characters with advanced filtering, favorites management, comments system and detailed character views.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 🔍 **Advanced search & filtering**: Search by name and filter by starred characters, species, status, and gender.
+- ⭐ **Favorites management**: Star your favorite characters with local storage persistence.
+- 📱 **Responsive design**: Optimized for both desktop and mobile devices.
+- 🗑️ **Character management**: Delete characters.
+- 💬 **Comments system**: Add comments to characters with local storage.
+
+## Tech Stack
+
+- **Frontend**: React 18, TypeScript
+- **Routing**: React Router Dom v7
+- **State management**: Zustand
+- **Data fetching**: Apollo Client + GraphQL
+- **Styling**: Tailwind CSS v4
+- **Testing**: Vitest + React Testing Library
+- **Build Tool**: Vite
+- **Package manager**: npm
+
+## Prerequisites
+
+- Node.js >= 20.0.0
+- npm or yarn
 
 ## Getting Started
 
 ### Installation
 
-Install the dependencies:
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd blossom-challenge
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The application will be available at `http://localhost:5173`
 
-## Building for Production
+### Available scripts
 
-Create a production build:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm test` - Run tests
+- `npm run test:ui` - Run tests with UI
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint errors
+
+## API integration
+
+This application uses the **Rick and Morty GraphQL API** to fetch character data.
+
+### API endpoint
+
+```
+https://rickandmortyapi.com/graphql
+```
+
+### Available Queries
+
+#### Get Characters
+
+```graphql
+query GetCharacters($page: Int!, $filter: FilterCharacter) {
+  characters(page: $page, filter: $filter) {
+    results {
+      id
+      name
+      image
+      species
+    }
+  }
+}
+```
+
+**Variables:**
+
+- `page`: Page number for pagination
+- `filter`: Object containing filter criteria
+  - `name`: String to search character names
+  - `status`: Character status (`Alive`, `Dead`, `Unknown`)
+  - `species`: Character species (`Human`, `Alien`)
+  - `gender`: Character gender (`Male`, `Female`, `Unknown`)
+
+#### Get Character by ID
+
+```graphql
+query GetCharacterById($id: ID!) {
+  character(id: $id) {
+    id
+    name
+    image
+    species
+    status
+    gender
+  }
+}
+```
+
+**Variables:**
+
+- `id`: Character ID (required)
+
+## Application Architecture
+
+### Project Structure
+
+```
+src/
+├── pages/               # Page components
+├── core/
+│   ├── components/      # Reusable components
+│   ├── stores/          # Zustand state management
+│   ├── utils/           # Utility functions
+│   └── test/            # Test utilities
+├── hooks/               # Custom React hooks
+├── graphql/             # GraphQL queries
+├── lib/                 # Library functions
+└── assets/              # Static assets (SVG icons)
+```
+
+### Local Storage
+
+The application persists data in localStorage:
+
+- **Favorites**: `favorites` - Array of favorite character IDs
+- **Comments**: `comments_post_{characterId}` - Comments for each character
+- **Removed characters**: `removed_characters` - Array of deleted character IDs
+
+## Testing
+
+The application includes comprehensive unit tests for key components:
 
 ```bash
-npm run build
+# Run all tests
+npm test
+
+# Run tests with UI to view results
+npm run test:ui
 ```
 
-## Deployment
+## API Documentation
 
-### Docker Deployment
+For more detailed API documentation, visit:
 
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- [Rick and Morty API Documentation](https://rickandmortyapi.com/documentation)
+- [GraphQL Playground](https://rickandmortyapi.com/graphql)
